@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -11165,6 +11165,7 @@
 							<select id="protocol" title="节点协议" onchange="updateProtocol(); markModified('config')">
 								<option value="vless">VLESS</option>
 								<option value="trojan">Trojan</option>
+								<option value="anytls">AnyTLS</option>
 							</select>
 						</div>
 
@@ -11191,6 +11192,7 @@
 								<option value="ws">WebSocket 速度快！(适合大多数场景)</option>
 								<option value="xhttp">XHTTP 长连接不断流！(适合AI长思考、单线程下载)</option>
 								<option value="grpc">gRPC 花里胡笑！</option>
+								<option value="network">AnyTLS Network 直连 (AnyTLS专用)</option>
 							</select>
 						</div>
 
@@ -20816,9 +20818,10 @@
 			updateProtocolOptionAvailability(protocol);
 			const transport = document.getElementById('transport');
 			if (transport) {
-				const shouldLockTransport = protocol === 'ss';
+				const isAnyTLS = protocol === 'anytls';
+				const shouldLockTransport = protocol === 'ss' || isAnyTLS;
 				if (shouldLockTransport) {
-					transport.value = 'ws';
+					transport.value = isAnyTLS ? 'network' : 'ws';
 				}
 				transport.disabled = shouldLockTransport;
 				updateGrpcModeVisibility();
